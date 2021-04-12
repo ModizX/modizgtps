@@ -1573,10 +1573,6 @@ inline void buildItemsDatabase()
 			{
 				def.clothType = ClothTypes::NONE;
 			}
-			if (++current != def.id)
-			{
-				cout << "Item are unordered!" << i << "/" << tile.id << endl;
-			}
 			maxItems = def.id;
 			itemDefs.push_back(def);
 		}
