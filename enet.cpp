@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <conio.h>
 #endif
+int maxItems = 10388;
 #ifdef __linux__
 typedef unsigned long ulong; //fix termux
 #include <stdio.h>
@@ -1330,7 +1331,7 @@ inline void buildItemsDatabase()
 			{
 				def.blockType = BlockTypes::SEED;
 			}
-			else if (bt == "Consummable")
+			else if (bt == "Consumable")
 			{
 				def.blockType = BlockTypes::CONSUMABLE;
 			}
@@ -1574,7 +1575,7 @@ inline void buildItemsDatabase()
 			}
 			if (++current != def.id)
 			{
-				SendConsole("Unordered database at item " + std::to_string(current) + "/" + std::to_string(def.id), "ERROR");
+				cout << "Item are unordered!" << i << "/" << tile.id << endl;
 			}
 			maxItems = def.id;
 			itemDefs.push_back(def);
@@ -2012,7 +2013,7 @@ void loadnews() {
 		
 		WorldInfo *world = getPlyersWorld(peer);
 
-		if (getItemDef(tile).blockType == BlockTypes::CONSUMMABLE) return;
+		if (getItemDef(tile).blockType == BlockTypes::CONSUMABLE) return;
 
 		if (world == NULL) return;
 		if (x<0 || y<0 || x>world->width - 1 || y>world->height - 1||tile > itemDefs.size()) return; // needs - 1
