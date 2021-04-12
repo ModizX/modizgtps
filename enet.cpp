@@ -2786,7 +2786,6 @@ label|Download Latest Version
 			const char filename[] = "items.dat";
 			size = filesize(filename);
 			pData = getA(static_cast<string>(filename), &size, false, false);
-			SendConsole("Updating items data success!", "INFO");
 			itemdathash = HashString(static_cast<unsigned char*>(pData), size);
 			file.close();
 			//serializeItems();
