@@ -1147,21 +1147,25 @@ struct ItemDefinition {
 	string extraOptions2 = "";
 	string punchOptions = "";
 	string description = "Nothing to see.";
+	int properties;
+	int price;
 };
 
 vector<ItemDefinition> itemDefs;
 
-ItemDefinition getItemDef(int id)
+inline ItemDefinition getItemDef(const int id)
+{
+	if (id < itemDefs.size() && id > 0 && id <= maxItems)
+	{
+		return itemDefs.at(id);
+	}
+	return itemDefs.at(0);
+}
+
+ItemDefinition GetItemDef(int id)
 {
 	if (id < itemDefs.size() && id > -1)
 		return itemDefs.at(id);
-	/*for (int i = 0; i < itemDefs.size(); i++)
-	{
-		if (id == itemDefs.at(i).id)
-		{
-			return itemDefs.at(i);
-		}
-	}*/
 	throw 0;
 	return itemDefs.at(0);
 }
