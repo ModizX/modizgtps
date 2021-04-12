@@ -1,0 +1,144 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/callbacks.c
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/compress.c
+string.h
+-
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/host.c
+string.h
+-
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/list.c
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/packet.c
+string.h
+-
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/peer.c
+string.h
+-
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/protocol.c
+stdio.h
+-
+string.h
+-
+enet/utility.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/utility.h
+enet/time.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/time.h
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/unix.c
+sys/types.h
+-
+sys/socket.h
+-
+sys/ioctl.h
+-
+sys/time.h
+-
+arpa/inet.h
+-
+netinet/tcp.h
+-
+netdb.h
+-
+unistd.h
+-
+string.h
+-
+errno.h
+-
+time.h
+-
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+fcntl.h
+-
+sys/poll.h
+-
+
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/win32.c
+enet/enet.h
+/data/data/com.termux/files/home/growtopiaserver/enet server test/enet2/enet/enet.h
+windows.h
+-
+mmsystem.h
+-
+
+include/enet/callbacks.h
+stdlib.h
+-
+
+include/enet/enet.h
+stdlib.h
+-
+enet/win32.h
+include/enet/enet/win32.h
+enet/unix.h
+include/enet/enet/unix.h
+enet/types.h
+include/enet/enet/types.h
+enet/protocol.h
+include/enet/enet/protocol.h
+enet/list.h
+include/enet/enet/list.h
+enet/callbacks.h
+include/enet/enet/callbacks.h
+
+include/enet/list.h
+stdlib.h
+-
+
+include/enet/protocol.h
+enet/types.h
+include/enet/enet/types.h
+
+include/enet/time.h
+
+include/enet/types.h
+
+include/enet/unix.h
+stdlib.h
+-
+sys/time.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+unistd.h
+-
+
+include/enet/utility.h
+
+include/enet/win32.h
+stdlib.h
+-
+winsock2.h
+-
+
