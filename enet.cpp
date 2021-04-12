@@ -1166,23 +1166,370 @@ ItemDefinition getItemDef(int id)
 	return itemDefs.at(0);
 }
 
-void craftItemDescriptions() {
-	int current = -1;
-	std::ifstream infile("Descriptions.txt");
-	for (std::string line; getline(infile, line);)
+inline void craftItemDescriptions()
+{
+	ifstream infile("Descriptions.txt");
+	for (string line; getline(infile, line);)
 	{
 		if (line.length() > 3 && line[0] != '/' && line[1] != '/')
 		{
-			vector<string> ex = explode("|", line);
-			ItemDefinition def;
+			auto ex = explode("|", line);
 			if (atoi(ex[0].c_str()) + 1 < itemDefs.size())
 			{
 				itemDefs.at(atoi(ex[0].c_str())).description = ex[1];
 				if (!(atoi(ex[0].c_str()) % 2))
+				{
 					itemDefs.at(atoi(ex[0].c_str()) + 1).description = "This is a tree.";
+				}
 			}
 		}
 	}
+}
+
+inline void buildItemsDatabase()
+{
+	auto current = -1;
+	ifstream infile("CoreData.txt");
+	for (string line; getline(infile, line);)
+	{
+		if (line.length() > 8 && line[0] != '/' && line[1] != '/')
+		{
+			auto ex = explode("|", line);
+			ItemDefinition def;
+			def.id = atoi(ex[0].c_str());
+			def.name = ex[1];
+			def.rarity = atoi(ex[2].c_str());
+			def.price = atoi(ex[2].c_str());
+			def.breakHits = atoi(ex[7].c_str());
+			auto properties = explode(",", ex[3]);
+			def.properties = Property_Zero;
+			for (auto& prop : properties)
+			{
+				if (prop == "NoSeed")
+				{
+					def.properties += Property_NoSeed;
+				}
+				if (prop == "Dropless")
+				{
+					def.properties += Property_Dropless;
+				}
+				if (prop == "Beta")
+				{
+					def.properties += Property_Beta;
+				}
+				if (prop == "Mod")
+				{
+					def.properties += Property_Mod;
+				}
+				if (prop == "Untradable")
+				{
+					def.properties += Property_Untradable;
+				}
+				if (prop == "Wrenchable")
+				{
+					def.properties += Property_Wrenchable;
+				}
+				if (prop == "MultiFacing")
+				{
+					def.properties += Property_MultiFacing;
+				}
+				if (prop == "Permanent")
+				{
+					def.properties += Property_Permanent;
+				}
+				if (prop == "AutoPickup")
+				{
+					def.properties += Property_AutoPickup;
+				}
+				if (prop == "WorldLock")
+				{
+					def.properties += Property_WorldLock;
+				}
+				if (prop == "NoSelf")
+				{
+					def.properties += Property_NoSelf;
+				}
+				if (prop == "RandomGrow")
+				{
+					def.properties += Property_RandomGrow;
+				}
+				if (prop == "Public")
+				{
+					def.properties += Property_Public;
+				}
+				if (prop == "Foreground")
+				{
+					def.properties += Property_Foreground;
+				}
+				if (prop == "OnlyCombiner")
+				{
+					def.properties += Property_Chemical;
+				}
+			}
+			auto bt = ex[4];
+			if (bt == "Foreground_Block")
+			{
+				def.blockType = BlockTypes::FOREGROUND;
+			}
+			else if (bt == "Background_Block")
+			{
+				def.blockType = BlockTypes::BACKGROUND;
+			}
+			else if (bt == "Seed")
+			{
+				def.blockType = BlockTypes::SEED;
+			}
+			else if (bt == "Consummable")
+			{
+				def.blockType = BlockTypes::CONSUMABLE;
+			}
+			else if (bt == "Pain_Block")
+			{
+				def.blockType = BlockTypes::PAIN_BLOCK;
+			}
+			else if (bt == "Main_Door")
+			{
+				def.blockType = BlockTypes::MAIN_DOOR;
+			}
+			else if (bt == "Bedrock")
+			{
+				def.blockType = BlockTypes::BEDROCK;
+			}
+			else if (bt == "Door")
+			{
+				def.blockType = BlockTypes::DOOR;
+			}
+			else if (bt == "Fist")
+			{
+				def.blockType = BlockTypes::FIST;
+			}
+			else if (bt == "Sign")
+			{
+				def.blockType = BlockTypes::SIGN;
+			}
+			else if (bt == "Back")
+			{
+				def.blockType = BlockTypes::BACKGROUND;
+			}
+			else if (bt == "Sheet_Music")
+			{
+				def.blockType = BlockTypes::BACKGROUND;
+			}
+			else if (bt == "Wrench")
+			{
+				def.blockType = BlockTypes::WRENCH;
+			}
+			else if (bt == "Checkpoint")
+			{
+				def.blockType = BlockTypes::CHECKPOINT;
+			}
+			else if (bt == "Lock")
+			{
+				def.blockType = BlockTypes::LOCK;
+			}
+			else if (bt == "Gateway")
+			{
+				def.blockType = BlockTypes::GATEWAY;
+			}
+			else if (bt == "Clothing")
+			{
+				def.blockType = BlockTypes::CLOTHING;
+			}
+			else if (bt == "Platform")
+			{
+				def.blockType = BlockTypes::PLATFORM;
+			}
+			else if (bt == "SFX_Foreground")
+			{
+				def.blockType = BlockTypes::SFX_FOREGROUND;
+			}
+			else if (bt == "Gems")
+			{
+				def.blockType = BlockTypes::GEMS;
+			}
+			else if (bt == "Toggleable_Foreground")
+			{
+				def.blockType = BlockTypes::TOGGLE_FOREGROUND;
+			}
+			else if (bt == "Chemical_Combiner")
+			{
+				def.blockType = BlockTypes::CHEMICAL_COMBINER;
+			}
+			else if (bt == "Treasure")
+			{
+				def.blockType = BlockTypes::TREASURE;
+			}
+			else if (bt == "Deadly_Block")
+			{
+				def.blockType = BlockTypes::DEADLY;
+			}
+			else if (bt == "Trampoline_Block")
+			{
+				def.blockType = BlockTypes::TRAMPOLINE;
+			}
+			else if (bt == "Animated_Foreground_Block")
+			{
+				def.blockType = BlockTypes::ANIM_FOREGROUND;
+			}
+			else if (bt == "Portal")
+			{
+				def.blockType = BlockTypes::PORTAL;
+			}
+			else if (bt == "Random_Block")
+			{
+				def.blockType = BlockTypes::RANDOM_BLOCK;
+			}
+			else if (bt == "Bouncy")
+			{
+				def.blockType = BlockTypes::BOUNCY;
+			}
+			else if (bt == "Chest")
+			{
+				def.blockType = BlockTypes::CHEST;
+			}
+			else if (bt == "Switch_Block")
+			{
+				def.blockType = BlockTypes::SWITCH_BLOCK;
+			}
+			else if (bt == "Magic_Egg")
+			{
+				def.blockType = BlockTypes::MAGIC_EGG;
+			}
+			else if (bt == "Crystal")
+			{
+				def.blockType = BlockTypes::CRYSTAL;
+			}
+			else if (bt == "Mailbox")
+			{
+				def.blockType = BlockTypes::MAILBOX;
+			}
+			else if (bt == "Bulletin_Board")
+			{
+				def.blockType = BlockTypes::BULLETIN_BOARD;
+			}
+			else if (bt == "Faction")
+			{
+				def.blockType = BlockTypes::FACTION;
+			}
+			else if (bt == "Component")
+			{
+				def.blockType = BlockTypes::COMPONENT;
+			}
+			else if (bt == "Weather_Machine")
+			{
+				def.blockType = BlockTypes::WEATHER;
+			}
+			else if (bt == "ItemSucker")
+			{
+				def.blockType = BlockTypes::SUCKER;
+			}
+			else if (bt == "Fish_Tank_Port")
+			{
+				def.blockType = BlockTypes::FISH;
+			}
+			else if (bt == "Steam_Block")
+			{
+				def.blockType = BlockTypes::STEAM;
+			}
+			else if (bt == "ground_Block")
+			{
+				def.blockType = BlockTypes::GROUND_BLOCK;
+			}
+			else if (bt == "Display")
+			{
+				def.blockType = BlockTypes::DISPLAY;
+			}
+			else if (bt == "Untrade_A_Box" || bt == "Safe_Vault")
+			{
+				def.blockType = BlockTypes::STORAGE;
+			}
+			else if (bt == "Vending")
+			{
+				def.blockType = BlockTypes::VENDING;
+			}
+			else if (bt == "Donation_Box")
+			{
+				def.blockType = BlockTypes::DONATION;
+			}
+			else if (bt == "Phone_Booth")
+			{
+				def.blockType = BlockTypes::PHONE;
+			}
+			else if (bt == "Sewing_Machine")
+			{
+				def.blockType = BlockTypes::SEWINGMACHINE;
+			}
+			else if (bt == "Crime_Villain")
+			{
+				def.blockType = BlockTypes::CRIME_VILLAIN;
+			}
+			else
+			{
+				def.blockType = BlockTypes::UNKNOWN;
+			}
+			def.breakHits = atoi(ex[7].c_str());
+			def.growTime = atoi(ex[8].c_str());
+			auto cl = ex[9];
+			if (def.blockType == BlockTypes::CLOTHING)
+			{
+				if (cl == "None")
+				{
+					def.clothType = ClothTypes::NONE;
+				}
+				else if (cl == "Hat")
+				{
+					def.clothType = ClothTypes::HAIR;
+				}
+				else if (cl == "Shirt")
+				{
+					def.clothType = ClothTypes::SHIRT;
+				}
+				else if (cl == "Pants")
+				{
+					def.clothType = ClothTypes::PANTS;
+				}
+				else if (cl == "Feet")
+				{
+					def.clothType = ClothTypes::FEET;
+				}
+				else if (cl == "Face")
+				{
+					def.clothType = ClothTypes::FACE;
+				}
+				else if (cl == "Hand")
+				{
+					def.clothType = ClothTypes::HAND;
+				}
+				else if (cl == "Back")
+				{
+					def.clothType = ClothTypes::BACK;
+				}
+				else if (cl == "Hair")
+				{
+					def.clothType = ClothTypes::MASK;
+				}
+				else if (cl == "Chest")
+				{
+					def.clothType = ClothTypes::NECKLACE;
+				}
+				else
+				{
+					def.clothType = ClothTypes::NONE;
+				}
+			}
+			else
+			{
+				def.clothType = ClothTypes::NONE;
+			}
+			if (++current != def.id)
+			{
+				SendConsole("Unordered database at item " + std::to_string(current) + "/" + std::to_string(def.id), "ERROR");
+			}
+			maxItems = def.id;
+			itemDefs.push_back(def);
+		}
+	}
+	craftItemDescriptions();
 }
 
 std::ifstream::pos_type filesize(const char* filename)
@@ -1239,331 +1586,6 @@ unsigned char* getA(string fileName, int* pSizeOut, bool bAddBasePath, bool bAut
 	fclose(fp);
 
 	return pData;
-}
-
-int itemdathash;
-void buildItemsDatabase()
-{
-	string secret = "PBG892FXX982ABC*";
-	std::ifstream file("items.dat", std::ios::binary | std::ios::ate);
-	int size = file.tellg();
-	itemsDatSize = size;
-	char* data = new char[size];
-	file.seekg(0, std::ios::beg);
-
-	if (file.read((char*)(data), size))
-	{
-		itemsDat = new BYTE[60 + size];
-		int MessageType = 0x4;
-		int PacketType = 0x10;
-		int NetID = -1;
-		int CharState = 0x8;
-
-		memset(itemsDat, 0, 60);
-		memcpy(itemsDat, &MessageType, 4);
-		memcpy(itemsDat + 4, &PacketType, 4);
-		memcpy(itemsDat + 8, &NetID, 4);
-		memcpy(itemsDat + 16, &CharState, 4);
-		memcpy(itemsDat + 56, &size, 4);
-		file.seekg(0, std::ios::beg);
-		if (file.read((char*)(itemsDat + 60), size))
-		{
-			uint8_t* pData;
-			int size = 0;
-			const char filename[] = "items.dat";
-			size = filesize(filename);
-			pData = getA((string)filename, &size, false, false);
-			cout << "Updating items data success! Hash: " << HashString((unsigned char*)pData, size) << endl;
-			itemdathash = HashString((unsigned char*)pData, size);
-			file.close();
-		}
-	}
-	else {
-		cout << "Updating items data failed!" << endl;
-		exit(0);
-	}
-	int itemCount;
-	int memPos = 0;
-	int16_t itemsdatVersion = 0;
-	memcpy(&itemsdatVersion, data + memPos, 2);
-	memPos += 2;
-	memcpy(&itemCount, data + memPos, 4);
-	memPos += 4; 
-	for (int i = 0; i < itemCount; i++) { 
-		ItemDefinition tile; 
-
-		{
-			memcpy(&tile.id, data + memPos, 4);
-			memPos += 4;
-		}
-		{
-			tile.editableType = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.itemCategory = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.actionType = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.hitSoundType = data[memPos];
-			memPos += 1;
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.name += data[memPos] ^ (secret[(j + tile.id) % secret.length()]);
-
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.texture += data[memPos];
-				memPos++;
-			}
-		}
-		memcpy(&tile.textureHash, data + memPos, 4);
-		memPos += 4;
-		tile.itemKind = memPos[data];
-		memPos += 1;
-		memcpy(&tile.val1, data + memPos, 4);
-		memPos += 4;
-		tile.textureX = data[memPos];
-		memPos += 1;
-		tile.textureY = data[memPos];
-		memPos += 1;
-		tile.spreadType = data[memPos];
-		memPos += 1;
-		tile.isStripeyWallpaper = data[memPos];
-		memPos += 1;
-		tile.collisionType = data[memPos];
-		memPos += 1;
-		tile.breakHits = data[memPos] / 6;
-		memPos += 1;
-		memcpy(&tile.dropChance, data + memPos, 4);
-		memPos += 4;
-		tile.clothingType = data[memPos];
-		memPos += 1;
-		memcpy(&tile.rarity, data + memPos, 2);
-		memPos += 2;
-		tile.maxAmount = data[memPos];
-		memPos += 1;
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.extraFile += data[memPos];
-				memPos++;
-			}
-		}
-		memcpy(&tile.extraFileHash, data + memPos, 4);
-		memPos += 4;
-		memcpy(&tile.audioVolume, data + memPos, 4);
-		memPos += 4;
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.petName += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.petPrefix += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.petSuffix += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.petAbility += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			tile.seedBase = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.seedOverlay = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.treeBase = data[memPos];
-			memPos += 1;
-		}
-		{
-			tile.treeLeaves = data[memPos];
-			memPos += 1;
-		}
-		{
-			memcpy(&tile.seedColor, data + memPos, 4);
-			memPos += 4;
-		}
-		{
-			memcpy(&tile.seedOverlayColor, data + memPos, 4);
-			memPos += 4;
-		}
-		memPos += 4; // deleted ingredients
-		{
-			memcpy(&tile.growTime, data + memPos, 4);
-			memPos += 4;
-		}
-		memcpy(&tile.val2, data + memPos, 2);
-		memPos += 2;
-		memcpy(&tile.isRayman, data + memPos, 2);
-		memPos += 2;
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.extraOptions += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.texture2 += data[memPos];
-				memPos++;
-			}
-		}
-		{
-			int16_t strLen = *(int16_t*)&data[memPos];
-			memPos += 2;
-			for (int j = 0; j < strLen; j++) {
-				tile.extraOptions2 += data[memPos];
-				memPos++;
-			}
-		}
-		memPos += 80;
-		if (itemsdatVersion >= 11) {
-			{
-				int16_t strLen = *(int16_t*)&data[memPos];
-				memPos += 2;
-				for (int j = 0; j < strLen; j++) {
-					tile.punchOptions += data[memPos];
-					memPos++;
-				}
-			}
-		}
-		if (i != tile.id)
-			cout << "Item are unordered!" << i << "/" << tile.id << endl;
-
-		switch (tile.actionType) {
-		case 0:
-			tile.blockType = BlockTypes::FIST;
-			break;
-		case 1:
-			// wrench tool
-			break;
-		case 2:
-			tile.blockType = BlockTypes::DOOR;
-			break;
-		case 3:
-			tile.blockType = BlockTypes::LOCK;
-			break;
-		case 4:
-			tile.blockType = BlockTypes::GEM;
-			break;
-		case 8:
-			tile.blockType = BlockTypes::CONSUMMABLE;
-			break;
-		case 9:
-			tile.blockType = BlockTypes::GATEWAY;
-			break;
-		case 10:
-			tile.blockType = BlockTypes::SIGN;
-			break;
-		case 13:
-			tile.blockType = BlockTypes::MAIN_DOOR;
-			break;
-		case 15:
-			tile.blockType = BlockTypes::BEDROCK;
-			break;
-		case 17:
-			tile.blockType = BlockTypes::FOREGROUND;
-			break;
-		case 18:
-			tile.blockType = BlockTypes::BACKGROUND;
-			break;
-		case 19:
-			tile.blockType = BlockTypes::SEED;
-			break;
-		case 20:
-			tile.blockType = BlockTypes::CLOTHING; 
-				switch(tile.clothingType){
-					case 0: tile.clothType = ClothTypes::HAIR;
-						break;
-					case 1: tile.clothType = ClothTypes::SHIRT;
-						break;
-					case 2: tile.clothType = ClothTypes::PANTS;
-						break;
-					case 3: tile.clothType = ClothTypes::FEET;
-						break; 
-					case 4: tile.clothType = ClothTypes::FACE;
-						break;
-					case 5: tile.clothType = ClothTypes::HAND;
-						break;
-					case 6: tile.clothType = ClothTypes::BACK;
-						break;
-					case 7: tile.clothType = ClothTypes::MASK;
-						break;
-					case 8: tile.clothType = ClothTypes::NECKLACE;
-						break;
-						
-				} 
-
-			break;
-		case 26: // portal
-			tile.blockType = BlockTypes::DOOR;
-			break;
-		case 27:
-			tile.blockType = BlockTypes::CHECKPOINT;
-			break;
-		case 28: // piano note
-			tile.blockType = BlockTypes::BACKGROUND;
-			break;
-		case 41:
-			tile.blockType = BlockTypes::WEATHER_MACHINE;
-			break;
-		case 34: // bulletin boardd
-			tile.blockType = BlockTypes::BOARD;
-			break;
-		case 107: // ances
-			tile.blockType = BlockTypes::CLOTHING;
-			tile.clothType = ClothTypes::ANCES;
-			break;
-		default:
-			 break;
-
-		}
- 
-
-		// -----------------
-		itemDefs.push_back(tile);
-	} 
-	craftItemDescriptions();
 }
 
 void addAdmin(string username, string password, int level)
@@ -2694,21 +2716,34 @@ label|Download Latest Version
 	cout << "Loading config from config.json" << endl;
 	loadConfig();
 		
+	int itemdathash;
 	enet_initialize();
-	//Unnecessary save at exit. Commented out to make the program exit slightly quicker.
-	/*if (atexit(saveAllWorlds)) {
-		cout << "Worlds won't be saved for this session..." << endl;
-	}*/
-	/*if (RegisterApplicationRestart(L" -restarted", 0) == S_OK)
 	{
-		cout << "Autorestart is ready" << endl;
+		std::ifstream file("items.dat", std::ios::binary | std::ios::ate);
+		itemsDatSize = file.tellg();
+		itemsDat = new BYTE[60 + itemsDatSize];
+		string asdf = "0400000010000000FFFFFFFF000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+		for (auto i = 0; i < asdf.length(); i += 2) {
+			char x = ch2n(asdf[i]);
+			x = x << 4;
+			x += ch2n(asdf[i + 1]);
+			memcpy(itemsDat + (i / 2), &x, 1);
+			if (asdf.length() > 60 * 2) throw 0;
+		}
+		memcpy(itemsDat + 56, &itemsDatSize, 4);
+		file.seekg(0, std::ios::beg);
+		if (file.read(reinterpret_cast<char*>(itemsDat + 60), itemsDatSize)) {
+			uint8_t* pData;
+			auto size = 0;
+			const char filename[] = "items.dat";
+			size = filesize(filename);
+			pData = getA(static_cast<string>(filename), &size, false, false);
+			SendConsole("Updating items data success!", "INFO");
+			itemdathash = HashString(static_cast<unsigned char*>(pData), size);
+			file.close();
+			//serializeItems();
+		}
 	}
-	else {
-		cout << "Binding autorestart failed!" << endl;
-	}
-	Sleep(65000);
-	int* p = NULL;
-	*p = 5;*/
 	signal(SIGINT, exitHandler);
 	worldDB.get("TEST");
 	worldDB.get("MAIN");
