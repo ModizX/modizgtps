@@ -159,6 +159,13 @@ void sendData(ENetPeer* peer, int num, char* data, int len)
 	enet_host_flush(server);
 }
 
+struct GamePacket
+{
+	BYTE* data;
+	int len;
+	int indexes;
+};
+
 int getPacketId(char* data)
 {
 	return *data;
