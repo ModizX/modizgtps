@@ -159,6 +159,25 @@ void sendData(ENetPeer* peer, int num, char* data, int len)
 	enet_host_flush(server);
 }
 
+inline GamePacket createPacket()
+{
+	const auto data = new BYTE[61];
+	string asdf = "0400000001000000FFFFFFFF00000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+	for (auto i = 0; i < asdf.length(); i += 2)
+	{
+		char x = ch2n(asdf[i]);
+		x = x << 4;
+		x += ch2n(asdf[i + 1]);
+		memcpy(data + (i / 2), &x, 1);
+		if (asdf.length() > 61 * 2) throw 0;
+	}
+	GamePacket packet;
+	packet.data = data;
+	packet.len = 61;
+	packet.indexes = 0;
+	return packet;
+}
+
 struct GamePacket
 {
 	BYTE* data;
