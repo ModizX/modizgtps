@@ -68,7 +68,7 @@ char _getch() {
 
 using namespace std;
 using json = nlohmann::json;
-string newslist = "set_default_color|`o\n\nadd_label_with_icon|big|`wThe Growtopia Gazette``|left|5016|\n\nadd_spacer|small|\nadd_label_with_icon|small|`4WARNING:`` `5Worlds (and accounts)`` might be deleted at any time if database issues appear (once per day or week).|left|4|\nadd_label_with_icon|small|`4WARNING:`` `5Accounts`` are in beta, bugs may appear and they will be probably deleted often, because of new account updates, which will cause database incompatibility.|left|4|\nadd_spacer|small|\n\nadd_url_button||``Watch: `1Watch a video about GT Private Server``|NOFLAGS|https://www.youtube.com/watch?v=_3avlDDYBBY|Open link?|0|0|\nadd_url_button||``Channel: `1Watch Growtopia Noobs' channel``|NOFLAGS|https://www.youtube.com/channel/UCLXtuoBlrXFDRtFU8vPy35g|Open link?|0|0|\nadd_url_button||``Items: `1Item database by Nenkai``|NOFLAGS|https://raw.githubusercontent.com/Nenkai/GrowtopiaItemDatabase/master/GrowtopiaItemDatabase/CoreData.txt|Open link?|0|0|\nadd_url_button||``Discord: `1GT Private Server Discord``|NOFLAGS|https://discord.gg/8WUTs4v|Open the link?|0|0|\nadd_quick_exit|\n\nend_dialog|gazette|Close||";
+//string newslist = "set_default_color|`o\n\nadd_label_with_icon|big|`wThe Growtopia Gazette``|left|5016|\n\nadd_spacer|small|\nadd_label_with_icon|small|`4WARNING:`` `5Worlds (and accounts)`` might be deleted at any time if database issues appear (once per day or week).|left|4|\nadd_label_with_icon|small|`4WARNING:`` `5Accounts`` are in beta, bugs may appear and they will be probably deleted often, because of new account updates, which will cause database incompatibility.|left|4|\nadd_spacer|small|\n\nadd_url_button||``Watch: `1Watch a video about GT Private Server``|NOFLAGS|https://www.youtube.com/watch?v=_3avlDDYBBY|Open link?|0|0|\nadd_url_button||``Channel: `1Watch Growtopia Noobs' channel``|NOFLAGS|https://www.youtube.com/channel/UCLXtuoBlrXFDRtFU8vPy35g|Open link?|0|0|\nadd_url_button||``Items: `1Item database by Nenkai``|NOFLAGS|https://raw.githubusercontent.com/Nenkai/GrowtopiaItemDatabase/master/GrowtopiaItemDatabase/CoreData.txt|Open link?|0|0|\nadd_url_button||``Discord: `1GT Private Server Discord``|NOFLAGS|https://discord.gg/8WUTs4v|Open the link?|0|0|\nadd_quick_exit|\n\nend_dialog|gazette|Close||";
 
 //#define TOTAL_LOG
 #define REGISTRATION
@@ -823,12 +823,6 @@ namespace packet {
 		p.Insert(message);
 		p.CreatePacket(peer);
 	}
-	void dialog(ENetPeer* peer, string message) {
-		gamepacket_t p;
-		p.Insert("OnDialogRequest");
-		p.Insert(message);
-		p.CreatePacket(peer);
-	}
 	void onspawn(ENetPeer* peer, string message) {
 		gamepacket_t p;
 		p.Insert("OnSpawn");
@@ -852,6 +846,17 @@ namespace packet {
 		p.Insert("OnStorePurchaseResult");
 		p.Insert(message);
 		p.CreatePacket(peer);
+	}
+}
+
+namespace packet {
+	void dialog(ENetPeer* peer, string message) {
+		GamePacket p = packetEnd(appendString(appendString(createPacket(), "OnDialogRequest"), message));
+		ENetPacket* packet = enet_packet_create(p.data,
+			p.len,
+			ENET_PACKET_FLAG_RELIABLE);
+		enet_peer_send(peer, 0, packet);
+		delete p.data;
 	}
 }
 
@@ -1642,6 +1647,153 @@ unsigned char* getA(string fileName, int* pSizeOut, bool bAddBasePath, bool bAut
 	return pData;
 }
 
+inline GamePacket appendFloat(GamePacket p, float val)
+{
+	const auto n = new BYTE[p.len + 2 + 4];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 1;
+	memcpy(n + p.len + 2, &val, 4);
+	p.len = p.len + 2 + 4;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket appendFloat(GamePacket p, float val, float val2)
+{
+	const auto n = new BYTE[p.len + 2 + 8];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 3;
+	memcpy(n + p.len + 2, &val, 4);
+	memcpy(n + p.len + 6, &val2, 4);
+	p.len = p.len + 2 + 8;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket appendFloat(GamePacket p, float val, float val2, float val3)
+{
+	const auto n = new BYTE[p.len + 2 + 12];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 4;
+	memcpy(n + p.len + 2, &val, 4);
+	memcpy(n + p.len + 6, &val2, 4);
+	memcpy(n + p.len + 10, &val3, 4);
+	p.len = p.len + 2 + 12;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket appendInt(GamePacket p, int val)
+{
+	const auto n = new BYTE[p.len + 2 + 4];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 9;
+	memcpy(n + p.len + 2, &val, 4);
+	p.len = p.len + 2 + 4;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket appendIntx(GamePacket p, int val)
+{
+	const auto n = new BYTE[p.len + 2 + 4];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 5;
+	memcpy(n + p.len + 2, &val, 4);
+	p.len = p.len + 2 + 4;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket appendString(GamePacket p, string str)
+{
+	const auto n = new BYTE[p.len + 2 + str.length() + 4];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	n[p.len] = p.indexes;
+	n[p.len + 1] = 2;
+	int sLen = str.length();
+	memcpy(n + p.len + 2, &sLen, 4);
+	memcpy(n + p.len + 6, str.c_str(), sLen);
+	p.len = p.len + 2 + str.length() + 4;
+	p.indexes++;
+	return p;
+}
+
+inline GamePacket createPacket()
+{
+	const auto data = new BYTE[61];
+	string asdf = "0400000001000000FFFFFFFF00000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+	for (auto i = 0; i < asdf.length(); i += 2)
+	{
+		char x = ch2n(asdf[i]);
+		x = x << 4;
+		x += ch2n(asdf[i + 1]);
+		memcpy(data + (i / 2), &x, 1);
+		if (asdf.length() > 61 * 2) throw 0;
+	}
+	GamePacket packet;
+	packet.data = data;
+	packet.len = 61;
+	packet.indexes = 0;
+	return packet;
+}
+
+inline GamePacket packetEnd(GamePacket p)
+{
+	const auto n = new BYTE[p.len + 1];
+	memcpy(n, p.data, p.len);
+	delete p.data;
+	p.data = n;
+	char zero = 0;
+	memcpy(p.data + p.len, &zero, 1);
+	p.len += 1;
+	*reinterpret_cast<int*>(p.data + 56) = p.indexes;
+	*static_cast<BYTE*>(p.data + 60) = p.indexes;
+	return p;
+}
+
+struct GamePacket
+{
+	BYTE* data;
+	int len;
+	int indexes;
+};
+
+//Dialogs
+void sendGazette1(ENetPeer* peer) {
+	std::ifstream news("store.txt");
+	std::stringstream buffer;
+	buffer << news.rdbuf();
+	std::string newsString(buffer.str());
+	GamePacket p8 = packetEnd(appendString(appendString(createPacket(), "OnDialogRequest"), newsString));
+
+	ENetPacket* packet8 = enet_packet_create(p8.data,
+		p8.len,
+		ENET_PACKET_FLAG_RELIABLE);
+	enet_peer_send(peer, 0, packet8);
+
+	//enet_host_flush(server);
+	delete p8.data;
+
+}
+
 void addAdmin(string username, string password, int level)
 {
 	Admin admin;
@@ -1971,7 +2123,7 @@ void SendPacketRaw(int a1, void *packetData, size_t packetDataSize, void *a4, EN
 		SendPacketRaw(4, packPlayerMoving(&data), 56, 0, peer, ENET_PACKET_FLAG_RELIABLE);
 	}
 
-void loadnews() {
+/*void loadnews() {
 	std::ifstream ifs("news.txt");
 	std::string content((std::istreambuf_iterator<char>(ifs)),
 		(std::istreambuf_iterator<char>()));
@@ -1991,7 +2143,7 @@ void loadnews() {
 	if(news != "") {
 		newslist = news;
 	}
-}
+}*/
 
 	void sendTileUpdate(int x, int y, int tile, int causedBy, ENetPeer* peer)
 	{
@@ -2836,7 +2988,7 @@ label|Download Latest Version
 	}
 	buildItemsDatabase();
 	cout << "Database is built!" << endl;
-	loadnews();
+	sendGazette1();
 
 	ENetEvent event;
 	/* Wait up to 1000 milliseconds for an event. */
@@ -3321,7 +3473,7 @@ label|Download Latest Version
 					}
 					else if (str == "/loadnews"){
 						if (!isSuperAdmin(((PlayerInfo*)(peer->data))->rawName, ((PlayerInfo*)(peer->data))->tankIDPass)) break;
-						loadnews();//To load news instead of close server and run it again
+						sendGazette1();//To load news instead of close server and run it again
 					}
 					else if (str.substr(0, 6) == "/nick ") {
 						string nam1e = "``" + str.substr(6, cch.length() - 6 - 1) + "``";

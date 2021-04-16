@@ -1,0 +1,31 @@
+add_label_with_icon|big|`wGrowtopiaPG NewsPaper (Daily Updated)!``|left|1164|
+
+add_textbox|`wWelcome to our private server, this server isnt the best but we are trying to make it as good as possible!, so if your enjoying our private server keep playing it!|left|4444|
+
+add_spacer|small|
+add_smalltext|`wCheck our server futures down belowe:|left|
+add_spacer|small|
+add_label_with_icon|small|`w[ `9Guilds `w] - `$Guilds are working and you can make one yourself for 250k gems!|left|5814|
+add_label_with_icon|small|`w[ `9Add Friend `w] - `$Add friend works like real growtopia!|left|1366|
+add_label_with_icon|small|`w[ `9Growtoken System `w] - `$You can purchase items/roles with growtokens that can be purchased in the store for 50k gems!|left|3146|
+add_label_with_icon|small|`w[ `9Store `w] - `$Our store/shop is being updated daily with new items and other stuff to purchase!|left|242|
+add_label_with_icon|small|`w[ `9Trade `w] - `$Trading works like real growtopia!|left|482|
+add_label_with_icon|small|`w[ `9Gem Events `w] - `$Gem events will happen every 5 minutes you can answer with (/a [Answer]) to win gems!|left|5774|
+add_label_with_icon|small|`w[ `9Gem Bonus `w] - `$Every few minutes our players will auto get 500 gems!|left|112|
+add_label_with_icon|small|`w[ `9Magic Machine `w] - `$Fixed magic machine and added new farmables to it!|left|9170|
+add_label_with_icon|small|`w[ `9Heart Of Gaia `w] - `$Heart Of Gaia is a gem collector that collects gems from the blocks that people break!|left|6950|
+add_label_with_icon|small|`w[ `9Antidote `w] - `$Antidote is working!|left|782|
+add_label_with_icon|small|`w[ `9G-Virus `w] - `$With g-Virus you can infecct your self and become a zombie!|left|764|
+add_label_with_icon|small|`w[ `9MAGPLANT 5000 `w] - `$Magplant 5000 is now working!|left|5638|
+add_label_with_icon|small|`w[ `9Gaia's Beacon `w] - `$Gaia Beacon is now working!|left|6946|
+add_label_with_icon|small|`w[ `9Unstable-Tesseract `w] - `$Unstable-Tesseract is now working!|left|6948|
+add_label_with_icon|small|`w[ `9Donation Box `w] - `$Donation Box is now working!|left|1452|
+add_label_with_icon|small|`w[ `9Safe Vault `w] - `$Safe Vault is now working!|left|8878|
+add_label_with_icon|small|`w[ `9Display Block `w] - `$Display Block is now working!|left|2946|
+add_label_with_icon|small|`w[ `9Growscan 9000 `w] - `$Growscan 9000 is now working!|left|6016|
+add_spacer|small|
+add_url_button|comment|`5Discord: `2GrowtopiaPG's `5Discord``|noflags|https://discord.gg/VzQ8jcbB|`wJoin our `5discord`w?|0|0|
+add_spacer|small|
+add_label_with_icon|small|`4WARNING: `5Worlds/Accounts `omay get deleted or corrupted anytime. `6@ModizX `oor `6@XuVi `ois preventing that from happening, Please be advised that the server will be always in beta phase due to misconduct of actions. Thankyou!|left|1432|
+add_label_with_icon|small|`4REMINDER: `oPlease direct message `6@ModizX `oor `6@XuVi `oon discord if you will purchase anything|left|1432|
+add_quick_exit|
